@@ -1,0 +1,27 @@
+{
+  "name": "portafoliocursos",
+  "version": "1.0.0",
+  "description": "Esto tambien es una prueba",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amilcar2727/PORTAFOLIOCURSOS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Amilcar2727/PORTAFOLIOCURSOS/issues"
+  },
+  "homepage": "https://github.com/Amilcar2727/PORTAFOLIOCURSOS#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.1",
+    "nodemon": "^3.1.10"
+  }
+}
