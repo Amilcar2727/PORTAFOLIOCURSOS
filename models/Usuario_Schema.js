@@ -4,8 +4,11 @@ const usuarioSchema = new mongoose.Schema({
     codigo: String,
     nombre: String,
     correo: String,
-    rol: String,
-    contraseña: String,
+    rol: {
+        type: String,
+        enum: ["Docente","Evaluador","Usuario","Administrador"]
+    },
+    contraseña: String,     //Confidenciabilidad
     fecha_creacion: {
         type: Date,
         default: Date.now
