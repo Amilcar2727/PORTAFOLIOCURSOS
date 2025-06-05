@@ -88,6 +88,9 @@ app.get("/",(req,res)=>{
     res.render("index.ejs");
 })
 
+//Para matar procesos zombies
+//netstat -ano | findstr :3000
+//taskkill /PID 9840 /F
 app.listen(3000, (req,res)=>{
     console.log("🚀 Servidor corriendo en http://localhost:3000");
 })

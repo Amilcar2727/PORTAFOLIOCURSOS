@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
 const evaluacionSchema = new mongoose.Schema({
-    archivoId: {type: mongoose.Schema.Types.ObjectId, ref: "Archivo"},  //?
-    usuarioId: {type: mongoose.Schema.Types.ObjectId, ref: "Usuario"},  //?
-    evaluadorId: {type: mongoose.Schema.Types.ObjectId, ref: "Evaluador"},  //?
+    archivoId: {type: mongoose.Schema.Types.ObjectId, ref: "Archivo"},
+    evaluadorId: {type: mongoose.Schema.Types.ObjectId, ref: "Usuario"},
     comentario: String,
     fecha:{
         type: Date,

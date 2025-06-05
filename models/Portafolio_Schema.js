@@ -4,11 +4,10 @@ const semestreSchema = require("./Semestre_Schema");
 const examenSchema = require("./Examen_Schema");
 
 const portafolioSchema = new mongoose.Schema({
-    docenteId: {type: mongoose.Schema.Types.ObjectId, ref: "Usuario"},  //?
-    cursoId: {type: mongoose.Schema.Types.ObjectId, ref: "Curso"},      //?
+    docenteId: {type: mongoose.Schema.Types.ObjectId, ref: "Usuario"},
+    cursoId: {type: mongoose.Schema.Types.ObjectId, ref: "Curso"},
     semestre: semestreSchema,
     creadoEn: {type: Date, default: Date.now},
-
     presentacion:{
         caratula: [archivoSchema],
         cargaAcademica: [archivoSchema],
@@ -32,12 +31,7 @@ const portafolioSchema = new mongoose.Schema({
 
     asignaciones: [archivoSchema],
 
-    enunciadoExamenes:{                 //Por Creditaje
-        examenEntrada: examenSchema,
-        primerExamen: examenSchema,
-        segundoExamen: examenSchema,
-        tercerExamen: examenSchema,
-    },
+    enunciadoExamenes:[examenSchema],   //Por Creditaje agregaremos cambiaremos el tipo 
 
     trabajosEstudiantes:{
         excelente: [archivoSchema],

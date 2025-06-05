@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
+const semestreSchema = require("./Semestre_Schema");
 
 const cursoSchema = new mongoose.Schema({
     codigo: String,
     carrera: String,
+    semestre: semestreSchema,
     nombre: String,
     creditos: Number,
     grupo: String,
@@ -14,8 +16,7 @@ const cursoSchema = new mongoose.Schema({
     aula: String,
     aforoLimite: Number,
     numMatriculados: Number,
-    docente: String,    //?
-    codDocente: String,     //?
+    docenteId: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },
     area: String,
     desactivado: {type: Boolean, default: false}
 });

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Amilcar2727/PORTAFOLIOCURSOS#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
