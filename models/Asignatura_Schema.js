@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 const semestreSchema = require("./Semestre_Schema");
 
-const cursoSchema = new mongoose.Schema({
-    codigo: String,
-    carrera: String,
+const asignaturaSchema = new mongoose.Schema({
     semestre: semestreSchema,
+    codigo: String,
+    categoria: {type: String, enum: ["OEES","EEEP","AEX","EG"]},
+    carrera: String,
     nombre: String,
     creditos: Number,
-    grupo: String,
+    grupo: {type: String, enum: ["A","B"], default: "A"},
     horasTeoricas: Number,
-    horasPracticas: Number,
     dias: [String],
     horaInicio: String,
     horaFin: String,
@@ -17,8 +17,7 @@ const cursoSchema = new mongoose.Schema({
     aforoLimite: Number,
     numMatriculados: Number,
     docenteId: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },
-    area: String,
     desactivado: {type: Boolean, default: false}
 });
 
-module.exports = mongoose.model("Curso",cursoSchema,"cursos");
+module.exports = mongoose.model("Asignatura",asignaturaSchema,"asignatura");

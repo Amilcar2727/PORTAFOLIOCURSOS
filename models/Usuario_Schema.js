@@ -5,6 +5,10 @@ const usuarioSchema = new mongoose.Schema({
     codigo: {type: String, required: true},
     nombre: {type: String, required: true},
     correo: {type: String, required: true},
+    grado: {
+        type: String,
+        enum: ["LIC.","MGT.","ING.","DR.","DRA."]
+    },
     rol: {
         type: String,
         enum: ["Docente","Evaluador","Usuario","Administrador"],
