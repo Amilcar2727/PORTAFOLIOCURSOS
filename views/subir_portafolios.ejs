@@ -4,35 +4,89 @@
     <meta charset = "UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Subir Portafolios</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body>
-    <h1>Crear Catalogos</h1>
-    <p style="text-align: center;">Aqui deberia subir un archivo excel para crear los portafolios</p>
-    <h2>Procesar Archivo Excel</h2>
-    <form id="form-subida" action = "/carga_academica/subir_excel" method="POST" enctype="multipart/form-data">
-        <input type="file" name="archivoExcel" accept=".xlsx, .xls, .xlsm" required />
-        <button type="submit">Subir Archivo</button>
-    </form>
+<h1 style="text-align: center;">Gestión de Portafolios Docentes</h1>
 
-    <hr>
+    <div class="contenedor">
 
-    <h3>Previsualización de Usuarios</h3>
-    <table id="tabla-usuarios" border="1">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Grado</th>
-                <th>Rol</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-    <!-- Confirmación -->
-    <button id="btn-confirmar" disabled>Guardar en Base de Datos</button>
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="columna">
+            <div class="bloque">
+                <h2>📋 Previsualización</h2>
+                <table id="tabla-previa">
+                    <thead>
+                        <tr>
+                            <th>IdPortafolioCurso</th>
+                            <th>CodDocente</th>
+                            <th>Docente</th>
+                            <th>CodAsignatura</th>
+                            <th>Asignatura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Filas insertadas con JS -->
+                    </tbody>
+                </table>
+                <button id="btn-generar" disabled>Generar Portafolios</button>
+            </div>
+
+            <div class="bloque">
+                <h3>📦 Portafolios Creados</h3>
+                <table id="tabla-creados">
+                    <thead>
+                        <tr>
+                            <th>IdPortafolioCurso</th>
+                            <th>CodDocente</th>
+                            <th>Docente</th>
+                            <th>CodAsignatura</th>
+                            <th>Asignatura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Filas después de guardar -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA -->
+        <div class="columna">
+            <div class="bloque">
+                <h2>📤 Subir Archivo</h2>
+                <form id="form-subida" action="/carga_academica/subir_excel" method="POST" enctype="multipart/form-data">
+                    <label for="semestre">Semestre:</label>
+                    <input type="text" id="semestre" name="semestre" placeholder="Ej: 2025-I" required>
+
+                    <br><br>
+
+                    <label for="archivoExcel">Archivo Excel:</label>
+                    <input type="file" id="archivoExcel" name="archivoExcel" accept=".xlsx, .xls, .xlsm" required>
+
+                    <br><br>
+
+                    <button type="submit">Subir Archivo</button>
+                </form>
+            </div>
+
+            <div class="bloque">
+                <h3>❌ Registros con Error</h3>
+                <table id="tabla-errores">
+                    <thead>
+                        <tr>
+                            <th>Fila</th>
+                            <th>Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Llenado dinámicamente si hay errores -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <script src="/js/main.js"></script>
 </body>
 </html>

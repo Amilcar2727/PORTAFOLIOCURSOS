@@ -1,30 +1,96 @@
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-    margin-top: 2rem;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-    width: 60%;
-    margin: 2rem auto;
-}
-
-li {
-    background-color: white;
-    padding: 1rem;
-    margin: 0.5rem 0;
-    border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+/* Estructura de columnas */
+.contenedor {
     display: flex;
-    justify-content: space-between;
-    font-size: 1.1rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.columna {
+    flex: 1 1 45%;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+td {
+    padding: 0.5rem;
+}
+
+/* Botones */
+button {
+    padding: 0.6rem 1.2rem;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+    background-color: #005fa3;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Formularios */
+form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.3rem;
+    margin-top: 1rem;
+}
+
+form input[type="text"],
+form input[type="file"] {
+    width: 100%;
+    padding: 0.4rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+/* Bloques separados */
+.bloque {
+    margin-bottom: 2rem;
+}
+
+h2, h3 {
+    color: #444;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contenedor {
+        flex-direction: column;
+    }
+
+    .columna {
+        flex: 1 1 100%;
+    }
 }
