@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang = "es">
+<head>
+    <meta charset = "UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name = "viewport" content="with-device-width, initial-scale-1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Crear Catalogos</h1>
+    <p style="text-align: center;">Aqui deberia subir un archivo excel para crear los portafolios</p>
+    <h2>Subir archivo Excel</h2>
+    <form action = "/subir_excel" method="POST" enctype="multipart/form-data">
+        <input type="file" name="archivoExcel" accept=".xlsx, .xls" required />
+        <button type="submit">Enviar Archivo</button>
+    </form>
+</body>
+</html>
