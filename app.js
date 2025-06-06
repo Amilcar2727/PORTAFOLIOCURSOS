@@ -15,9 +15,9 @@ conectarDB();
 
 /* Conectamos rutas */
 const usuarioRoutes = require("./routes/usuario.routes");
-const cargaAcademicaRoutes = require("./routes/cargaAcademica.routes");
+const adminPortafoliosRoutes = require("./routes/admin/portafolios.routes");
 
-app.use("/carga_academica",cargaAcademicaRoutes);
+app.use("/admin/portafolios",adminPortafoliosRoutes);
 app.use("/usuarios",usuarioRoutes);
 
 // ==>> Pagina Principal <<==

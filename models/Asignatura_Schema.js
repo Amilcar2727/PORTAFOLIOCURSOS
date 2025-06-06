@@ -4,7 +4,7 @@ const semestreSchema = require("./Semestre_Schema");
 const asignaturaSchema = new mongoose.Schema({
     semestre: semestreSchema,
     codigo: String,
-    categoria: {type: String, enum: ["OEES","EEEP","AEX","EG"]},
+    //categoria: {type: String, enum: ["OEES","EEEP","AEX","EG"]},
     carrera: String,
     nombre: String,
     creditos: Number,

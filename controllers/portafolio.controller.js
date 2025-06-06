@@ -1,6 +1,10 @@
 const usuarioSchema = require("../models/Usuario_Schema");
 const XLSX = require("xlsx");
 const mapUsuarios = require("../excelMappers/mapUsuarios");
+const mapAsignaturas = require("../excelMappers/mapAsignatura");
+const mapSemestres = require("../excelMappers/mapSemestre");
+const mapExamenes = require("../excelMappers/mapExamene");
+const mapPortafolios = require("../excelMappers/mapPortafolio");
 
 exports.renderSubirPagina = (req,res)=>{
     res.render("subir_portafolios");    //Vista .ejs
@@ -18,15 +22,30 @@ exports.procesarExcel = async (req,res)=>{
         /* Aqui podemos procesar los datos para crear portafolios */
         // Mapeo Usuarios
         const usuarios = mapUsuarios(workbook);
-        
+        // Mapeo Asignaturas
+        const asignaturas = mapAsignaturas(workbook, usuarios);
+        // Mapeo Examenes
+        //const examenes = mapExamenes(workbook);
+        // Mapeo Portafolio
+        //const portafolios = mapPortafolios(workbook);
+
         //res.json({message: "Usuarios Generados", usuarios});    
-        res.status(200).json({usuarios}); //Devolverlos como json
+        res.status(200).json({
+            usuarios,
+            asignaturas
+            //examenes,
+            //portafolios
+        }); //Devolverlos como json
     }catch(error){
         console.error("Error al procesar Excel:", error);
         res.status(500).send("Error interno al procesar el archivo.");
     }   
 }
 
+// Guardar Asignaturas
+// Guardar Semestres
+// Guardar Examenes
+// Guardar Usuarios
 exports.guardarUsuarios = async(req,res)=>{
     try{
         const usuarios = req.body.usuarios;
@@ -40,3 +59,4 @@ exports.guardarUsuarios = async(req,res)=>{
         res.status(500).json({message: "Error al guardar usuarios"})
     }
 }
+// Guardar Portafolios
