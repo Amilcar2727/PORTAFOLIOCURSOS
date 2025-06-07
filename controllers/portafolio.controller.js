@@ -5,8 +5,6 @@ const mapAsignaturas = require("../services/mappers/mapAsignatura");
 
 const generarPortafolios = require("../services/utils/generarPortafolios");
 const validarSemestre = require("../services/utils/validarSemestre");
-const generarCarpetasExamenes = require("../services/utils/generarCarpetasExamenes");
-
 exports.renderPagina = (req,res)=>{
     res.render("admin/portafolios/subir");    //Vista .ejs
 }
@@ -25,20 +23,19 @@ exports.procesarExcel = async (req,res)=>{
         const usuarios = mapUsuarios(workbook);
         // Mapeo Asignaturas desde excel
         const asignaturas = mapAsignaturas(workbook, usuarios);
-        // Semestre
+        // Validar Semestre
         const semestre = validarSemestre(req.body.semestre); // <- desde el form
-        // Mapeo Examenes
-        const examenes = generarCarpetasExamenes(asignaturas);
-        // Mapeo Portafolio
-        const portafolios = generarPortafolios(usuarios, asignaturas, semestre, examenes);
+        
+        // Generacion Portafolios (Incluye Examenes)
+        //const portafolios = generarPortafolios(usuarios, asignaturas, semestre);
 
         //res.json({message: "Usuarios Generados", usuarios});    
         res.render("admin/portafolios/vista_previa",{
             usuarios,
             asignaturas,
-            semestre,
-            examenes,
-            portafolios
+        //    semestre,
+        //    examenes,
+        //    portafolios
         });
     }catch(error){
         console.error("Error al procesar Excel:", error);
