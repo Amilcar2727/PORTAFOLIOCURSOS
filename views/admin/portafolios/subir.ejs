@@ -7,8 +7,8 @@
     <title>Subir Portafolios</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
+<body>
 <h1 style="text-align: center;">Gestión de Portafolios Docentes</h1>
-
     <div class="contenedor">
 
         <!-- COLUMNA IZQUIERDA -->
@@ -55,9 +55,9 @@
         <div class="columna">
             <div class="bloque">
                 <h2>📤 Subir Archivo</h2>
-                <form id="form-subida" action="/admin/portafolios/subir" method="POST" enctype="multipart/form-data">
+                <form id="form-subida" action="/admin/portafolios/procesar" method="POST" enctype="multipart/form-data">
                     <label for="semestre">Semestre:</label>
-                    <input type="text" id="semestre" name="semestre" placeholder="Ej: 2025-I" required>
+                    <input type="text" id="semestre" name="semestre" placeholder="Ej: 2025-I" required pattern="\d{4}-(I|II)">
 
                     <br><br>
 

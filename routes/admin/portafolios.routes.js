@@ -14,7 +14,7 @@ router.get("/crear",portafolioController.renderPagina);
 router.post("/procesar", upload.single("archivoExcel"), portafolioController.procesarExcel);
 
 // POST: Guarda usuarios y portafolios confirmados en la base de datos
-router.post("/confirmar",portafolioController.guardarUsuarios);
+router.post("/confirmar",portafolioController.guardarTodo);
 
 
 module.exports = router;

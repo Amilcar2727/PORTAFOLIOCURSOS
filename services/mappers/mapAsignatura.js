@@ -41,8 +41,6 @@ function mapAsignaturas(workbook, usuarios) {
             desactivado: fila["DESACTIVADO"]?.toString().trim() === "desactivado"
         };
     });
-
-    console.log("Total de Asignaturas mapeadas: ", asignaturas.length);
     return asignaturas;
 }
 

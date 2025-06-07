@@ -4,28 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Vista Previa</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h2>Usuarios</h2>
-        <ul>
-        <% usuarios.forEach(u => { %>
-            <li><%= u.nombre %> - <%= u.dni %></li>
-        <% }) %>
-        </ul>
-
-        <h2>Asignaturas</h2>
-        <ul>
-        <% asignaturas.forEach(a => { %>
-            <li><%= a.nombre %> - <%= a.codigo %></li>
-        <% }) %>
-        </ul>
-        <!-- igual con semestres, portafolios, etc -->
-        <form method="POST" action="/admin/portafolios/guardar">
-        <input type="hidden" name="datosProcesados" value='<%= JSON.stringify({usuarios, asignaturas, ...}) %>'>
-        <button type="submit">Confirmar y Guardar</button>
-        </form>
- 
+    <h1>📊 Vista Previa de Datos Procesados</h1>
+    <pre><%= JSON.stringify({ usuarios, asignaturas, semestre }, null, 2) %></pre>
 </body>
 </html>

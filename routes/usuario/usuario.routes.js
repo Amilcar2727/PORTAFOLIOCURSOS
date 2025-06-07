@@ -27,7 +27,7 @@ router.get("/",async(req,res)=>{
     }
     try{
         const usuarios = await Usuario.find();
-        res.render("usuarios_page.ejs", { usuarios });
+        res.render("admin/usuarios/lista_usuarios.ejs", { usuarios });
     }catch(err){
         console.log(err);
         res.status(500).send("Error al cargar la pagina");
