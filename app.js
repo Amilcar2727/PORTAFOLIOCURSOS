@@ -14,10 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 conectarDB();
 
 /* Conectamos rutas */
-const usuarioRoutes = require("./routes/usuario.routes");
-const adminPortafoliosRoutes = require("./routes/admin/portafolios.routes");
+const usuarioRoutes = require("./routes/usuario/usuario.routes");
+const adminRoutes = require("./routes/admin");
 
-app.use("/admin/portafolios",adminPortafoliosRoutes);
+app.use("/admin",adminRoutes);
 app.use("/usuarios",usuarioRoutes);
 
 // ==>> Pagina Principal <<==

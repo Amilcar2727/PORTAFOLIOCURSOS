@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Usuario = require("../models/Usuario_Schema");
+const Usuario = require("../../models/Usuario_Schema");
 const mongoose = require("mongoose");
 
 //Page -> Crear nuevo usuario

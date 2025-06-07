@@ -5,7 +5,7 @@ const examenSchema = require("./Examen_Schema");
 
 const portafolioSchema = new mongoose.Schema({
     docenteId: {type: mongoose.Schema.Types.ObjectId, ref: "Usuario"},
-    cursoId: {type: mongoose.Schema.Types.ObjectId, ref: "Asignatura"},
+    asignaturaId: {type: mongoose.Schema.Types.ObjectId, ref: "Asignatura"},
     semestre: semestreSchema,
     creadoEn: {type: Date, default: Date.now},
     presentacion:{

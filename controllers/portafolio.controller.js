@@ -1,13 +1,14 @@
 const usuarioSchema = require("../models/Usuario_Schema");
 const XLSX = require("xlsx");
-const mapUsuarios = require("../excelMappers/mapUsuarios");
-const mapAsignaturas = require("../excelMappers/mapAsignatura");
-const mapSemestres = require("../excelMappers/mapSemestre");
-const mapExamenes = require("../excelMappers/mapExamene");
-const mapPortafolios = require("../excelMappers/mapPortafolio");
+const mapUsuarios = require("../services/mappers/mapUsuarios");
+const mapAsignaturas = require("../services/mappers/mapAsignatura");
 
-exports.renderSubirPagina = (req,res)=>{
-    res.render("subir_portafolios");    //Vista .ejs
+const generarPortafolios = require("../services/utils/generarPortafolios");
+const validarSemestre = require("../services/utils/validarSemestre");
+const generarCarpetasExamenes = require("../services/utils/generarCarpetasExamenes");
+
+exports.renderPagina = (req,res)=>{
+    res.render("admin/portafolios/subir");    //Vista .ejs
 }
 
 exports.procesarExcel = async (req,res)=>{
@@ -19,44 +20,52 @@ exports.procesarExcel = async (req,res)=>{
         // Leer workbook con xlsx
         const workbook = XLSX.read(buffer, {type: "buffer"});
         
-        /* Aqui podemos procesar los datos para crear portafolios */
-        // Mapeo Usuarios
+        /* Llamamos a servicios para transformar los datos */
+        // Mapeo Usuarios desde excel
         const usuarios = mapUsuarios(workbook);
-        // Mapeo Asignaturas
+        // Mapeo Asignaturas desde excel
         const asignaturas = mapAsignaturas(workbook, usuarios);
+        // Semestre
+        const semestre = validarSemestre(req.body.semestre); // <- desde el form
         // Mapeo Examenes
-        //const examenes = mapExamenes(workbook);
+        const examenes = generarCarpetasExamenes(asignaturas);
         // Mapeo Portafolio
-        //const portafolios = mapPortafolios(workbook);
+        const portafolios = generarPortafolios(usuarios, asignaturas, semestre, examenes);
 
         //res.json({message: "Usuarios Generados", usuarios});    
-        res.status(200).json({
+        res.render("admin/portafolios/vista_previa",{
             usuarios,
-            asignaturas
-            //examenes,
-            //portafolios
-        }); //Devolverlos como json
+            asignaturas,
+            semestre,
+            examenes,
+            portafolios
+        });
     }catch(error){
         console.error("Error al procesar Excel:", error);
         res.status(500).send("Error interno al procesar el archivo.");
     }   
 }
 
-// Guardar Asignaturas
-// Guardar Semestres
-// Guardar Examenes
-// Guardar Usuarios
-exports.guardarUsuarios = async(req,res)=>{
+exports.guardarTodo = async(req,res)=>{
+    const {usuarios, asignaturas, semestre, examenes, portafolios} = req.body;
     try{
-        const usuarios = req.body.usuarios;
-        for(const usuario of usuarios){
-            const nuevoUsuario = new usuarioSchema(usuario);
-            await nuevoUsuario.save();
+        // Validaciones extras talvez
+        // Guardar Usuarios
+        for(const usuario of usuarios){s
+            const existe = await usuarioSchema.findOne({ codigo: usuario.codigo });
+            if (!existe) {
+                const nuevoUsuario = new usuarioSchema(usuario);
+                await nuevoUsuario.save();
+            }
         }
-        res.status(200).json({message: "Usuarios guardados con éxito"});
+        // TODO: Guardar Asignaturas
+        // TODO: Guardar Semestre
+        // TODO: Guardar Examenes
+        // TODO: Guardar Portafolios
+
+        res.status(200).json({message: "Todo guardado con éxito"});
     }catch(error){
-        console.error("Error al guardar usuarios: ",error);
-        res.status(500).json({message: "Error al guardar usuarios"})
+        console.error("Error al guardar: ",error);
+        res.status(500).json({message: "Error interno al guardar los datos."});
     }
 }
-// Guardar Portafolios
