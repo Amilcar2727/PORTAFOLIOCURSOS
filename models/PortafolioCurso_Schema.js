@@ -4,7 +4,7 @@ const examenSchema = require("./Examen_Schema");
 
 const portafolioCursoSchema = new mongoose.Schema({
     portafolioId: {type: mongoose.Schema.Types.ObjectId, ref: "Portafolio"},
-    asignaturaId: {type: mongoose.Schema.Types.ObjectId, ref: "Asignatura"},
+    asignaturaId: {type: String, required: true},
 
     silabos:{
         silaboUNSAAC: [archivoSchema],
