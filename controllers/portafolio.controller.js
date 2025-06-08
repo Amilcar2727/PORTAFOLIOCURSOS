@@ -3,8 +3,9 @@ const XLSX = require("xlsx");
 const mapUsuarios = require("../services/mappers/mapUsuarios");
 const mapAsignaturas = require("../services/mappers/mapAsignatura");
 
+const generarPortafoliosCursos = require("../services/utils/generarPortafoliosCursos");
 const generarPortafolios = require("../services/utils/generarPortafolios");
-const validarSemestre = require("../services/utils/validarSemestre");
+const generarSemestre = require("../services/utils/generarSemestre");
 
 exports.renderPagina = (req,res)=>{
     res.render("admin/portafolios/subir");    //Vista .ejs
@@ -33,18 +34,24 @@ exports.procesarExcel = async (req,res)=>{
         const asignaturas = mapAsignaturas(workbook, usuarios);
         console.log("✅ Asignaturas mapeadas:", asignaturas.length);
         // Validar Semestre
-        const semestre = validarSemestre(req.body.semestre); // <- desde el form
-        console.log("Semestre validado:", semestre);
-        // Generacion Portafolios (Incluye Examenes)
-        //const portafolios = generarPortafolios(usuarios, asignaturas, semestre);
-        console.log("✅ Excel procesado correctamente");
+        const semestreTexto = req.body.semestre;  // <- desde el form
+        const activoCheckbox = req.body.activo;
+        const semestre = generarSemestre(semestreTexto, activoCheckbox);
+        console.log("✅ Semestre generado:", semestre);
+        // Generacion Portafolios Cursos (Incluye Examenes)
+        const portafoliosCursos = generarPortafoliosCursos(asignaturas);
+        console.log("✅ Portafolios_Cursos generados:", portafoliosCursos.length);
+        // Generacion Portafolios mismos
+        const portafolios = generarPortafolios(usuarios, portafoliosCursos, semestre);
+        console.log("✅ Portafolios generados:", portafolios.length);
+        console.log("💪 Excel procesado correctamente");
         //res.json({message: "Usuarios Generados", usuarios});    
         return res.render("admin/portafolios/vista_previa", {
             usuarios,
             asignaturas,
             semestre,
-        //    examenes,
-        //    portafolios
+            portafoliosCursos,
+            portafolios
         });
     }catch(error){
         console.error("Error al procesar Excel:", error);

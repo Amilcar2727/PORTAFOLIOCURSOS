@@ -3,13 +3,15 @@ const semestreSchema = require("./Semestre_Schema");
 
 const asignaturaSchema = new mongoose.Schema({
     semestre: semestreSchema,
-    codigo: String,
+    codigo: {type: String, required: true},
     //categoria: {type: String, enum: ["OEES","EEEP","AEX","EG"]},
     carrera: String,
     nombre: String,
     creditos: Number,
+    tipo: {type: String, enum: ["T","P"], default: "T"},
     grupo: {type: String, enum: ["A","B"], default: "A"},
     horasTeoricas: Number,
+    horasPracticas: Number,
     dias: [String],
     horaInicio: String,
     horaFin: String,

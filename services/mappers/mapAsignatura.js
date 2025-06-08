@@ -1,47 +1,69 @@
 const XLSX = require("xlsx");
 
-/**
- * 
- * @param {*} workbook 
- * @param {*} usuarios Lista de usuarios ya mapeados, para hacer match por nombre con el docente
- * @returns 
- * 
- */
-
 function mapAsignaturas(workbook, usuarios) {
     const sheetName = workbook.SheetNames[3]; // Hoja 4
     const workSheet = workbook.Sheets[sheetName];
+
     const datos = XLSX.utils.sheet_to_json(workSheet, { defval: null, range: 1 });
+    console.log("📝 Mapeando asignaturas");
+    const agrupadas = {};
 
-    console.log("Mapeando asignaturas desde hojas: ", sheetName);
+    const regexCodigoValido = /^IF\d{3}[A-Z]{3}$/;
 
-    const asignaturas = datos.map((fila, index) => {
-        const dias = fila["DIA"] ? [fila["DIA"].toString().trim()] : [];
+    datos.forEach((fila, index) => {
+        const codigo = fila["CODIGO"]?.toString().trim() || `NO-COD-${index}`;
+        const tipo = fila["TIPO"]?.toString().trim() || "T";
+        const grupo = fila["GPO"]?.toString().trim() || "A";
+        const nombre = fila["CURSO"]?.toString().trim();
+        const carrera = fila["CARRERA"]?.toString().trim();
 
-        // Match del docente con los usuarios ya mapeados
-        const nombreDocente = fila["DOCENTE (Nombre)"]?.toString().trim();
+        // Validar si es una fila valida
+        const filaValida = (regexCodigoValido.test(codigo) || (nombre && carrera));
+        if (!filaValida) return;
+
+        const codigoFinal = codigo || `NO-COD-${index}`;
+        const nombreFinal = nombre || "-";
+        const carreraFinal = carrera || "-";
+
+        const nombreDocente = fila["DOCENTE"]?.toString().trim();
         const docente = usuarios.find(u => u.nombre.trim().toLowerCase() === nombreDocente?.toLowerCase());
-        
-        return {
-            //TODO: Semestre: Asignarlo fuera del mapeo, mediante input del usuario
-            codigo: fila["CODIGO"]?.toString().trim() || `NO-COD-${index}`,
-            //TODO: categoria: "EG" // Lo vamos a implementar lueeeego
-            carrera: fila["CARRERA"]?.toString().trim() || "-",
-            nombre: fila["CURSO"]?.toString().trim() || "-",
-            creditos: Number(fila["CRED"] || 0),
-            grupo: fila["GPO"]?.toString().trim() || "A",
-            horasTeoricas: Number(fila["HT"] || 0),
-            dias,
-            horaInicio: fila["HORA INICIO"]?.toString().trim() || "00",
-            horaFin: fila["HORA FIN"]?.toString().trim() || "00",
-            aula: fila["AULA"]?.toString().trim() || "-",
-            aforoLimite: Number(fila["AFORO LÍMITE"] || 0),
-            numMatriculados: Number(fila["Matriculados"] || 0),
-            docenteId: docente ? docente._id || null : null, // Si ya existe en Mongo, se puede usar _id real, // se asignará luego cuando se crucen con los usuarios
-            desactivado: fila["DESACTIVADO"]?.toString().trim() === "desactivado"
-        };
+        const docenteId = docente ? docente.codigo : null;
+
+        const clave = `${codigo}_${grupo}_${tipo}_${docenteId}_${nombre}`;
+
+        // Matriculados
+        const numMatriculados = Number(fila["Matriculados"] || 0);
+        const desactivadoPorMatricula = numMatriculados === 0 || numMatriculados < 7;
+        const desactivadoManual = fila["DESACTIVADO"]?.toString().trim().toLowerCase() === "desactivado";
+        const desactivado = desactivadoPorMatricula || desactivadoManual;
+
+        if (!agrupadas[clave]) {
+            agrupadas[clave] = {
+                codigo: codigoFinal,
+                carrera: carreraFinal,
+                nombre: nombreFinal,
+                creditos: Number(fila["CRED"] || 0),
+                tipo,
+                grupo,
+                horasTeoricas: Number(fila["HT"] || 0),
+                horasPracticas: Number(fila["HP"] || 0),
+                dias: [],
+                horaInicio: fila["HORA\r\nINICIO"] != null ? String(fila["HORA\r\nINICIO"]).trim() : "00",
+                horaFin: fila["HORA\r\nFIN"] != null ? String(fila["HORA\r\nFIN"]).trim() : "00",
+                aula: fila["AULA"]?.toString().trim() || "-",
+                aforoLimite: Number(fila["AFORO LÍMITE"] || 0),
+                numMatriculados: Number(fila["Matriculados"] || 0),
+                docenteId,
+                desactivado
+            };
+        }
+
+        const dia = fila["DIA"]?.toString().trim();
+        if (dia && !agrupadas[clave].dias.includes(dia)) {
+            agrupadas[clave].dias.push(dia);
+        }
     });
-    return asignaturas;
+    return Object.values(agrupadas);
 }
 
 module.exports = mapAsignaturas;
