@@ -1,5 +1,14 @@
 const XLSX = require("xlsx");
 
+function normalizarTexto(texto) {
+    return texto
+        .toLowerCase()
+        .normalize("NFD") // descompone tildes
+        .replace(/[\u0300-\u036f]/g, "") // elimina tildes
+        .replace(/\s+/g, " ") // espacios múltiples a uno
+        .trim();
+}
+
 function mapUsuarios(workbook){
     console.log("📄 Mapeando los usuarios");
     //* Hoja 4: Datos Docentes*/
@@ -18,31 +27,38 @@ function mapUsuarios(workbook){
         header: [encabezadoGrado, encabezadoNombre],
         defval: null
     });
+
+    //--- Mapeamos grados a docente para rápido acceso
+    const gradoMap = {};
+    datosGrados.forEach(g=>{
+        const nombre = g[encabezadoNombre]?.toString().trim();
+        const grado = g[encabezadoGrado]?.toString().trim();
+        if (nombre && grado) {
+            gradoMap[normalizarTexto(nombre)] = grado;
+        }
+    })
+
     //--- Extraemos nombres unicos de docentes de la hoja 4
     const docentesUnicos = [...new Set(
         datosDocentes.map(d=> d["DOCENTE"]?.toString().trim()).filter(Boolean)
     )];
 
-    //--- Mapeamos grados a docente para rápido acceso
-    const gradoMap = {};
-    datosGrados.forEach(g=>{
-        const nombre = g["NOMBRES Y APELLIDOS"]?.toString().trim();
-        const grado = g["GRADO"]?.toString().trim();
-        if (nombre && grado) {
-            gradoMap[nombre] = grado;
-        }
-    })
-
+    //-- Ordenamos alfabeticamente
+    docentesUnicos.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base'}));
+    
+    //-- Mapeamos los usuarios
     const usuarios = docentesUnicos
-        .filter(nombre=>gradoMap[nombre])
+        .filter(nombre=>gradoMap[normalizarTexto(nombre)])
         .map((nombreDocente, index)=>{
-            const contraseñaPlano = nombreDocente.toLowerCase().replace(/\s+/g, "");
+            const claveNormalizada = normalizarTexto(nombreDocente);
+            const grado = gradoMap[claveNormalizada] || "Lic.";
+            const contraseñaPlano = claveNormalizada.replace(/\s+/g, "");
 
         return{
             codigo: (index + 1).toString().padStart(4, "0"),
             nombre: nombreDocente,
             correo: "-",
-            grado: gradoMap[nombreDocente] || "Lic.",
+            grado,
             rol: "Docente",
             contraseña: contraseñaPlano,
         };
