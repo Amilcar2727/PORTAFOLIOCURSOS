@@ -1,18 +1,53 @@
 <!DOCTYPE html>
-<html lang = "es">
+<html lang="es">
 <head>
-    <meta charset = "UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE-edge">
-    <meta name = "viewport" content="with-device-width, initial-scale-1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="/css/styles.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOMA - Bienvenido</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Bienvenido a SOMA</h1>
-    <p style="text-align: center;">Esta es la página principal. Próximamente más contenido...</p>
 
-    <button id="miBoton"> Haz click aqui! </button>
-    <p id="mensaje"></p>
-    <script src = "/js/main.js"></script>
+  <header class="header">
+    <div class="logo">
+      <a href="/">SOMA.</a>
+    </div>
+    <div class="identidad">
+      <img src="/img/escudo_universidad.png" alt="Escudo Institucional">
+      <h1>Ingeniería Informática y de Sistemas</h1>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+    <nav class="menu" id="menu">
+      <ul>
+        <li><a href="https://universidad.edu.pe" target="_blank">Web Principal</a></li>
+        <li><a href="https://biblioteca.edu.pe" target="_blank">Biblioteca</a></li>
+        <li><a href="https://intranet.edu.pe" target="_blank">Intranet</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="bienvenida">
+      <h2>Bienvenido a SOMA</h2>
+      <p class="subtitulo">Organizador de Material Académico</p>
+      <div class="botones">
+        <a href="/usuarios/login" class="btn btn-primario">INICIA SESIÓN</a>
+        <a href="/usuarios/solicitud" class="btn btn-secundario">SOLICITA ACCESO</a>
+      </div>
+    </section>
+    <div class="decoracion"></div>
+  </main>
+
+  <footer class="footer">
+    <p>SÍGUENOS EN:</p>
+    <div class="social">
+      <a href="#"><img src="/img/icono_facebook.svg" alt="Facebook"></a>
+      <a href="#"><img src="/img/icono_instagram.svg" alt="Instagram"></a>
+      <a href="#"><img src="/img/icono_linkedin.svg" alt="LinkedIn"></a>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
 </body>
 </html>
